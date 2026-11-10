@@ -1,0 +1,65 @@
+# ============================================================
+# 开发环境配置模板（example）
+# 使用方式：复制本文件为 application-dev.yml 并填入真实值
+# 注意：application-dev.yml 已被 .gitignore 忽略，不会提交到仓库
+# ============================================================
+
+spring:
+  application:
+    name: takeaway-enhanced
+
+  # ---------- 数据源 MySQL ----------
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/takeaway?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: your_password
+
+  # ---------- Redis ----------
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password:
+      database: 0
+
+  # ---------- RabbitMQ ----------
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
+
+# ---------- MyBatis-Plus ----------
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: assign_id
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+# ---------- JWT ----------
+jwt:
+  # 生产环境务必更换为强随机密钥（至少 256bit）
+  secret: change-me-to-a-strong-random-secret-key
+  # token 过期时间，单位毫秒（默认 2 小时）
+  expire: 7200000
+
+# ---------- 项目自定义配置 ----------
+takeaway:
+  # 订单超时自动取消时间，单位分钟
+  order-timeout-minutes: 15
+  # 菜品缓存过期时间，单位分钟
+  dish-cache-minutes: 30
+
+# ---------- Knife4j ----------
+knife4j:
+  enable: true
+
+server:
+  port: 8080
