@@ -1,0 +1,115 @@
+%% 苍穹外卖增强版 ER 图（Mermaid 源码）
+%% 渲染命令：mmdc -i er.mmd -o er.png
+
+erDiagram
+    CATEGORY ||--o{ DISH : "拥有"
+    DISH ||--o{ DISH_FLAVOR : "包含"
+    USER ||--o{ ADDRESS_BOOK : "拥有"
+    USER ||--o{ SHOPPING_CART : "加入"
+    DISH ||--o{ SHOPPING_CART : "被加入"
+    USER ||--o{ ORDERS : "下单"
+    ADDRESS_BOOK ||--o{ ORDERS : "收货"
+    ORDERS ||--o{ ORDER_DETAIL : "包含"
+    DISH ||--o{ ORDER_DETAIL : "被购买"
+    ORDERS ||--o{ REFUND_RECORD : "产生"
+    USER ||--o{ FAVORITE : "收藏"
+    DISH ||--o{ FAVORITE : "被收藏"
+    EMPLOYEE ||--o{ OPERATION_LOG : "产生"
+
+    EMPLOYEE {
+        bigint id PK
+        varchar username UK
+        varchar password
+        varchar name
+        varchar role
+        tinyint status
+    }
+
+    CATEGORY {
+        bigint id PK
+        tinyint type
+        varchar name
+        int sort
+        tinyint status
+    }
+
+    DISH {
+        bigint id PK
+        bigint category_id FK
+        varchar name
+        decimal price
+        int stock
+        tinyint status
+    }
+
+    DISH_FLAVOR {
+        bigint id PK
+        bigint dish_id FK
+        varchar name
+        varchar value
+    }
+
+    USER {
+        bigint id PK
+        varchar openid UK
+        varchar name
+        varchar phone
+    }
+
+    ADDRESS_BOOK {
+        bigint id PK
+        bigint user_id FK
+        varchar consignee
+        varchar phone
+        varchar detail
+        tinyint is_default
+    }
+
+    SHOPPING_CART {
+        bigint id PK
+        bigint user_id FK
+        bigint dish_id FK
+        int number
+        decimal amount
+    }
+
+    ORDERS {
+        bigint id PK
+        varchar number UK
+        tinyint status
+        bigint user_id FK
+        bigint address_book_id FK
+        decimal amount
+        tinyint pay_status
+    }
+
+    ORDER_DETAIL {
+        bigint id PK
+        bigint order_id FK
+        bigint dish_id FK
+        varchar name
+        int number
+        decimal amount
+    }
+
+    OPERATION_LOG {
+        bigint id PK
+        varchar module
+        varchar operation
+        varchar method
+        bigint user_id FK
+    }
+
+    REFUND_RECORD {
+        bigint id PK
+        bigint order_id FK
+        varchar order_number
+        decimal amount
+        tinyint status
+    }
+
+    FAVORITE {
+        bigint id PK
+        bigint user_id FK
+        bigint dish_id FK
+    }
