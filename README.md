@@ -23,7 +23,7 @@
 
 ## 项目结构
 
-（阶段 2 补充，规划如下）
+（已按以下结构搭建，阶段 3 起逐步填充业务模块）
 
 ```
 com.takeaway
@@ -45,7 +45,26 @@ com.takeaway
 
 ## 快速启动
 
-（阶段 5 补充：Docker Compose 一键启动 MySQL + Redis + RabbitMQ + 应用）
+使用 Maven Wrapper 构建与运行（本机无需预装 Maven）：
+
+```bash
+# 编译
+./mvnw.cmd compile        # Windows
+./mvnw compile            # Linux / macOS
+
+# 打包（跳过测试）
+./mvnw.cmd -DskipTests package
+
+# 运行
+java -jar target/takeaway-enhanced-0.1.0-SNAPSHOT.jar
+```
+
+启动后访问：
+
+- 接口文档（Knife4j）：http://localhost:8080/doc.html
+- 健康检查：http://localhost:8080/health
+
+> 阶段 5 补充：Docker Compose 一键启动 MySQL + Redis + RabbitMQ + 应用
 
 ## 文档
 
@@ -54,4 +73,4 @@ com.takeaway
 
 ## 当前状态
 
-开发中，当前进度：阶段 0（项目基线）。
+开发中，当前进度：阶段 2（基础工程骨架）。

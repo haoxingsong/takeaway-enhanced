@@ -1,0 +1,51 @@
+# ============================================================
+# 默认配置（所有环境共享）
+# 环境差异化/敏感配置见 application-{profile}.yml（敏感信息仅提交 example 模板）
+# ============================================================
+
+server:
+  port: 8080
+
+spring:
+  application:
+    name: takeaway-enhanced
+  profiles:
+    active: dev
+
+  # ---------- 数据源 MySQL ----------
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/takeaway?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+    # 账号密码通过环境变量覆盖，默认使用本地开发值
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:root}
+    hikari:
+      # 骨架阶段无数据库环境，跳过启动时的连接校验，避免 MySQL 未启动导致应用无法启动
+      initialization-fail-timeout: 0
+
+# ---------- MyBatis-Plus ----------
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+  global-config:
+    db-config:
+      # 主键使用雪花算法（ASSIGN_ID）
+      id-type: assign_id
+
+# ---------- JWT ----------
+jwt:
+  # 生产环境务必通过环境变量覆盖为强随机密钥（至少 256bit）
+  secret: takeaway-enhanced-jwt-secret-key-please-change-in-production-2026
+  # token 过期时间，单位毫秒（默认 2 小时）
+  expire: 7200000
+
+# ---------- Knife4j ----------
+knife4j:
+  enable: true
+
+# ---------- 项目自定义配置 ----------
+takeaway:
+  # 订单超时自动取消时间，单位分钟
+  order-timeout-minutes: 15
+  # 菜品缓存过期时间，单位分钟
+  dish-cache-minutes: 30
