@@ -49,3 +49,5 @@ takeaway:
   order-timeout-minutes: 15
   # 菜品缓存过期时间，单位分钟
   dish-cache-minutes: 30
+  # 图片上传目录（模拟本地上传）
+  upload-dir: ./upload/

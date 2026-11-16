@@ -8,7 +8,9 @@ import com.takeaway.common.result.ResultCode;
 import com.takeaway.dto.CategoryDTO;
 import com.takeaway.dto.CategoryPageQueryDTO;
 import com.takeaway.entity.Category;
+import com.takeaway.entity.Dish;
 import com.takeaway.mapper.CategoryMapper;
+import com.takeaway.mapper.DishMapper;
 import com.takeaway.service.CategoryService;
 import com.takeaway.vo.CategoryVO;
 import com.takeaway.vo.PageResult;
@@ -28,6 +30,7 @@ import java.util.stream.Collectors;
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryMapper categoryMapper;
+    private final DishMapper dishMapper;
 
     @Override
     public void save(CategoryDTO dto) {
@@ -52,6 +55,12 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void delete(Long id) {
+        // 分类下仍有菜品时不允许删除
+        Long dishCount = dishMapper.selectCount(new LambdaQueryWrapper<Dish>()
+                .eq(Dish::getCategoryId, id));
+        if (dishCount != null && dishCount > 0) {
+            throw new BaseException("该分类下还有菜品，不能删除");
+        }
         categoryMapper.deleteById(id);
     }
 
